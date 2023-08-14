@@ -17,6 +17,7 @@ def shape_select(question):
 
 
 # main routine goes here
+
 while True:
   shape = shape_select("Choose a shape. (circle, square, triangle,\
  parallelogram): ").lower()

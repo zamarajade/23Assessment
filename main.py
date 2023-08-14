@@ -1,1 +1,1 @@
-import shape_select
+import string_checker
