@@ -1,37 +1,35 @@
 # functions go here
 
-# checks if user says yes or no
-def yes_no(question):
+# checks that user enters a valid response
+def string_checker(question, valid_responses):
+
+  error = "Please choose from: {}".format(', '.join(valid_responses))
 
   while True:
+
     response = input(question).lower()
-    if response == "yes" or response == "y":
-      return "yes"
-    elif response == "no" or response == "n":
-      return "no"
-    else:
-      print("Please enter either yes or no.")
 
-# asks user to select a shape
-def shape_select(question):
+    for item in valid_responses:
+      if response == item[0] or response == item:
+        return item
 
-  while True:
-    response = input(question).lower().strip()
-    if response == "circle" or response == "c":
-      return "circle"
-    elif response == "square" or response == "s":
-      return "square"
-    elif response == "triangle" or response == "t":
-      return "triangle"
-    elif response == "parallelogram" or response == "p":
-      return "parallelogram"
-    else:
-      print("Please enter a valid shape")
+    print(error)
 
 
 # main routine goes here
 
-want_instructions = yes_no("Do you need instructions for this program? Y/N ").lower()
+yes_no_list = ["yes", "no"]
+shape_list = ["circle", "square", "triangle", "parallelogram"]
 
+
+want_instructions = string_checker("Do you want to read the instructions? (y/n): "\
+                                     , yes_no_list)
 if want_instructions == "yes":
-  print("Instructions go here")
+  print("instructions go here")
+
+print()
+
+select_shape = string_checker("Choose a shape (circle, square, triangle,\
+parallelogram): ", shape_list)
+
+print("You chose", select_shape)
