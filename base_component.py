@@ -36,6 +36,7 @@ def get_valid_converted_length(min_value, max_value):
     """Get a valid converted length within the allowed range"""
 
     while True:
+      try:
         entered_value = float(input("Enter your length: "))
         entered_unit = input("Enter the unit (mm, cm, m): ")
         converted_length = convert_mm(entered_value, entered_unit)
@@ -45,6 +46,8 @@ def get_valid_converted_length(min_value, max_value):
         else:
             print(f"Converted value should be between {min_value}mm and \
 {max_value}mm. Try again.")
+      except ValueError:
+        print("Invalid input. Please enter a numerical value for length.")
 
 
 
