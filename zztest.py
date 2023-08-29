@@ -1,8 +1,6 @@
-"""This file takes in values from the user, depending on shape they choose"""
-
 # functions go here
 
-# what shape based on a list of options
+# checks that user enters a valid response
 def string_checker(question, valid_responses):
 
   error = "Please choose from: {}".format(', '.join(valid_responses))
@@ -18,60 +16,7 @@ def string_checker(question, valid_responses):
     print(error)
 
 
-def values(selected_shape):
-  valid_units = ['mm', 'cm', 'm']
-  
-  while True:
-      try:
-          if selected_shape == "square" or selected_shape == "s":
-              length = float(input("Please enter the length of your square: "))
-              length_unit = input("Enter the unit (mm, cm, m): ")
-              if length_unit not in valid_units:
-                print("Invalid unit. Please choose from:", ', '.join(valid_units))
-                continue
-              print("Entered length:", length, length_unit)
-              return length, length_unit
-          elif selected_shape == "parallelogram" or selected_shape == "p":
-              length = float(input("Please enter the length of your parallelogram: "))
-              length_unit = input("Enter the unit (mm, cm, m): ")
-              width = float(input("Please enter the width of your parallelogram: "))
-              width_unit = input("Enter the unit (mm, cm, m): ")
-              if length_unit not in valid_units or width_unit not in valid_units:
-                print("Invalid unit. Please choose from:", ', '.join(valid_units))
-                continue
-              print("Entered length:", length, length_unit)
-              print("Entered width:", width, width_unit)
-              return length, length_unit, width, width_unit
-          elif selected_shape == "triangle" or selected_shape == "t":
-              length = float(input("Please enter the length of your triangle: "))
-              length_unit = input("Enter the unit (mm, cm, m): ")
-              angle = float(input("Please enter the angle of your triangle: "))
-              height = float(input("Please enter the height of your triangle: "))
-              height_unit = input("Enter the unit (mm, cm, m): ")
-              if length_unit not in valid_units or height_unit not in valid_units:
-                print("Invalid unit. Please choose from:", ', '.join(valid_units))
-                continue
-              print("Entered length:", length, length_unit)
-              print("Entered angle:", angle, "degrees")
-              print("Entered height:", height, height_unit)
-              return length, length_unit, angle, height, height_unit
-          elif selected_shape == "circle" or selected_shape == "c":
-              radius = float(input("Please enter the radius of your circle: "))
-              radius_unit = input("Enter the unit (mm, cm, m): ")
-              diameter = float(input("Please enter the diameter of your circle: "))
-              diameter_unit = input("Enter the unit (mm, cm, m): ")
-              if radius_unit not in valid_units or diameter_unit not in valid_units:
-                print("Invalid unit. Please choose from:", ', '.join(valid_units))
-                continue
-              print("Entered radius:", radius, radius_unit)
-              print("Entered diameter", diameter, diameter_unit)
-              return radius, radius_unit, diameter, diameter_unit
-          else:
-              print("error")
-      except ValueError:
-          print("Please enter a numerical value.")
-
-      
+# converts lengths to mm
 def convert_mm(input_length, input_unit):
     """Convert lengths to mm."""
 
@@ -87,6 +32,8 @@ def convert_mm(input_length, input_unit):
     
     return converted
 
+
+# checks converted length is within range
 def get_valid_converted_length(min_value, max_value):
     """Get a valid converted length within the allowed range"""
 
@@ -105,41 +52,65 @@ def get_valid_converted_length(min_value, max_value):
         print("Invalid input. Please enter a numerical value for length.")
 
 
+# takes in values from user
+def values(selected_shape):
+    valid_units = ['mm', 'cm', 'm']
+    
+    while True:
+        try:
+            if selected_shape == "square" or selected_shape == "s":
+                length, length_unit = get_valid_converted_length(0, float('inf'))
+                print("Entered length:", length, length_unit)
+                return length, length_unit
+            elif selected_shape == "parallelogram" or selected_shape == "p":
+                length, length_unit = get_valid_converted_length(0, float('inf'))
+                width, width_unit = get_valid_converted_length(0, float('inf'))
+                print("Entered length:", length, length_unit)
+                print("Entered width:", width, width_unit)
+                return length, length_unit, width, width_unit
+            elif selected_shape == "triangle" or selected_shape == "t":
+                length, length_unit = get_valid_converted_length(0, float('inf'))
+                angle = float(input("Please enter the angle of your triangle: "))
+                height, height_unit = get_valid_converted_length(0, float('inf'))
+                print("Entered length:", length, length_unit)
+                print("Entered angle:", angle, "degrees")
+                print("Entered height:", height, height_unit)
+                return length, length_unit, angle, height, height_unit
+            elif selected_shape == "circle" or selected_shape == "c":
+                radius, radius_unit = get_valid_converted_length(0, float('inf'))
+                diameter, diameter_unit = get_valid_converted_length(0, float('inf'))
+                print("Entered radius:", radius, radius_unit)
+                print("Entered diameter", diameter, diameter_unit)
+                return radius, radius_unit, diameter, diameter_unit
+            else:
+                print("Invalid shape.")
+        except ValueError:
+            print("Please enter a valid input.")
+
+
 # main routine goes here
 
+# string checker variables
+yes_no_list = ["yes", "no"]
 shape_list = ["circle", "square", "triangle", "parallelogram"]
 
-select_shape = string_checker("Choose a shape (circle, square, triangle, \
-parallelogram):", shape_list)
-
-print("You chose", select_shape)
-
-# set the allowed range
+# set the allowed range for valid converted length
 minimum_allowed = 1  # 1mm
 maximum_allowed = 50000  # 50m in mm
 
-# convert each unit inputted by user
-value_input = values(select_shape)
+# asks user if they want to read the instructions
+want_instructions = string_checker("Do you want to read the instructions? (y/n): "\
+                                     , yes_no_list)
+if want_instructions == "yes":
+  print("instructions go here")
 
-if select_shape == "circle":
-    radius_input, radius_unit, diameter_input, diameter_unit = value_input
-    converted_radius = convert_mm(radius_input, radius_unit)
-    converted_diameter = convert_mm(diameter_input, diameter_unit)
-    print("Converted radius:", converted_radius, "mm")
-    print("Converted diameter:", converted_diameter, "mm")
-elif select_shape == "square":
-    length_input, length_unit = value_input
-    converted_length = convert_mm(length_input, length_unit)
-    print("Converted length:", converted_length, "mm")
-elif select_shape == "parallelogram":
-    length_input, length_unit, width_input, width_unit = value_input
-    converted_length = convert_mm(length_input, length_unit)
-    converted_width = convert_mm(width_input, width_unit)
-    print("Converted length:", converted_length, "mm")
-    print("Converted width:", converted_width, "mm")
-elif select_shape == "triangle":
-    length_input, length_unit, angle_input, height_input, height_unit = value_input
-    converted_length = convert_mm(length_input, length_unit)
-    converted_height = convert_mm(height_input, height_unit)
-    print("Converted length:", converted_length, "mm")
-    print("Converted height:", converted_height, "mm")
+print()
+
+# asks the user to select a shape
+select_shape = string_checker("Choose a shape (circle, square, triangle, \
+parallelogram): ", shape_list)
+
+print("You chose", select_shape)
+
+# get user input for the converted length
+entered_values = values(select_shape)
