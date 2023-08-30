@@ -33,25 +33,6 @@ def convert_mm(input_length, input_unit):
     return converted
 
 
-# checks converted length is within range
-def get_valid_converted_length(min_value, max_value):
-    """Get a valid converted length within the allowed range"""
-
-    while True:
-      try:
-        entered_value = float(input("Enter your length: "))
-        entered_unit = input("Enter the unit (mm, cm, m): ")
-        converted_length = convert_mm(entered_value, entered_unit)
-
-        if converted_length is not None and min_value <= converted_length <= max_value:
-            return entered_value, entered_unit, converted_length
-        else:
-            print(f"Converted value should be between {min_value}mm and \
-{max_value}mm. Try again.")
-      except ValueError:
-        print("Invalid input. Please enter a numerical value for length.")
-
-
 # takes in values from user
 def values(selected_shape):
   valid_units = ['mm', 'cm', 'm']
@@ -60,44 +41,86 @@ def values(selected_shape):
       try:
           if selected_shape == "square" or selected_shape == "s":
               length = float(input("Please enter the length of your square: "))
-              length_unit = input("Enter the unit (mm, cm, m): ")
-              if length_unit not in valid_units:
-                print("Invalid unit. Please choose from:", ', '.join(valid_units))
-                continue
+              while True:
+                length_unit = input("Enter the unit (mm, cm, m): ")
+                if length_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
               print("Entered length:", length, length_unit)
+              square_values.append(length)
+              square_units.append(length_unit)            
               return length, length_unit
+            
           elif selected_shape == "parallelogram" or selected_shape == "p":
               length = float(input("Please enter the length of your parallelogram: "))
-              length_unit = input("Enter the unit (mm, cm, m): ")
+              while True:
+                length_unit = input("Enter the unit (mm, cm, m): ")
+                if length_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
               width = float(input("Please enter the width of your parallelogram: "))
-              width_unit = input("Enter the unit (mm, cm, m): ")
-              if length_unit not in valid_units or width_unit not in valid_units:
-                print("Invalid unit. Please choose from:", ', '.join(valid_units))
-                continue
+              while True:
+                width_unit = input("Enter the unit (mm, cm, m): ")
+                if width_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
+              parallelogram_values.append(length)
+              parallelogram_units.append(length_unit)
+              parallelogram_values.append(width)
+              parallelogram_units.append(width_unit)
               print("Entered length:", length, length_unit)
               print("Entered width:", width, width_unit)
               return length, length_unit, width, width_unit
+            
           elif selected_shape == "triangle" or selected_shape == "t":
               length = float(input("Please enter the length of your triangle: "))
-              length_unit = input("Enter the unit (mm, cm, m): ")
+              while True:
+                length_unit = input("Enter the unit (mm, cm, m): ")
+                if length_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
               angle = float(input("Please enter the angle of your triangle: "))
               height = float(input("Please enter the height of your triangle: "))
-              height_unit = input("Enter the unit (mm, cm, m): ")
-              if length_unit not in valid_units or height_unit not in valid_units:
-                print("Invalid unit. Please choose from:", ', '.join(valid_units))
-                continue
+              while True:
+                height_unit = input("Enter the unit (mm, cm, m): ")
+                if height_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
+              triangle_values.append(length)
+              triangle_units.append(length_unit)
+              triangle_values.append(angle)
+              triangle_units.append("degrees")
+              triangle_values.append(height)
+              triangle_units.append(height_unit)
               print("Entered length:", length, length_unit)
               print("Entered angle:", angle, "degrees")
               print("Entered height:", height, height_unit)
               return length, length_unit, angle, height, height_unit
+            
           elif selected_shape == "circle" or selected_shape == "c":
               radius = float(input("Please enter the radius of your circle: "))
-              radius_unit = input("Enter the unit (mm, cm, m): ")
+              while True:
+                radius_unit = input("Enter the unit (mm, cm, m): ")
+                if radius_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
               diameter = float(input("Please enter the diameter of your circle: "))
-              diameter_unit = input("Enter the unit (mm, cm, m): ")
-              if radius_unit not in valid_units or diameter_unit not in valid_units:
-                print("Invalid unit. Please choose from:", ', '.join(valid_units))
-                continue
+              while True:
+                diameter_unit = input("Enter the unit (mm, cm, m): ")
+                if diameter_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
+              circle_values.append(radius)
+              circle_units.append(radius_unit)
+              circle_values.append(diameter)
+              circle_units.append(diameter_unit)
               print("Entered radius:", radius, radius_unit)
               print("Entered diameter", diameter, diameter_unit)
               return radius, radius_unit, diameter, diameter_unit
@@ -107,46 +130,262 @@ def values(selected_shape):
           print("Please enter a numerical value.")
 
 
+#main
 
-# main routine goes here
-
-# string checker variables
-yes_no_list = ["yes", "no"]
 shape_list = ["circle", "square", "triangle", "parallelogram"]
 
 # lists to hold shape details
-square = []
-circle = []
-triangle = []
-parallelogram = []
+square_values = []
+square_units = []
+circle_values = []
+circle_units = []
+triangle_values = []
+triangle_units = []
+parallelogram_values = []
+parallelogram_units = []
 
-# set the allowed range for valid converted length
+# set the allowed range
 minimum_allowed = 1  # 1mm
 maximum_allowed = 50000  # 50m in mm
 
-# asks user if they want to read the instructions
-want_instructions = string_checker("Do you want to read the instructions? (y/n): "\
-                                     , yes_no_list)
-if want_instructions == "yes":
-  print("instructions go here")
+# valid units
+valid_units = ["mm", "cm", "m"]
 
-print()
-
-# asks the user to select a shape
 select_shape = string_checker("Choose a shape (circle, square, triangle, \
-parallelogram): ", shape_list)
+parallelogram): ", shape_list).lower().strip()
 
 print("You chose", select_shape)
 
-# get values from user
 entered_values = values(select_shape)
 
-# get user input for the converted length
-entered_value, entered_unit, converted_length = get_valid_converted_length\
-(minimum_allowed, maximum_allowed)
+print()
 
-print("Entered value:", entered_value, entered_unit)
-print("Converted length:", converted_length, "mm")
+# converts values from user input
 
-# get converted values
-converted_values = 
+#converts square values from user input
+# converts sqaure length from user input
+if len(square_values) > 0:
+    value1 = square_values[0]
+    unit1 = square_units[0]
+
+    while True:
+        converted_length = convert_mm(value1, unit1)
+        print("Converted square length:", converted_length, "mm")
+ # checks to see if converted length is in valid range
+        if converted_length is not None and minimum_allowed\
+<= converted_length <= maximum_allowed:
+            break
+        else:
+ # asks user for new length if not in valid range          
+            print(f"Converted value should be between {minimum_allowed}mm and \
+{maximum_allowed}mm. Try again.")
+            new_value = input("Enter a new length for your square: ")
+            try:
+                value1 = float(new_value)
+            except ValueError:
+                print("Please enter a numerical value.")
+            new_unit = input("Enter a new unit for your length: ")
+            if new_unit in valid_units:
+                unit1 = new_unit
+                converted_length = convert_mm(value1, unit1)
+            else:
+                print("Invalid unit. Please choose from:", ', '.join(valid_units))
+
+
+# converts circle values from user input
+# converts circle radius from user input
+if len(circle_values) > 0:
+  value1 = circle_values[0]
+  unit1 = circle_units[0]
+  while True:
+    converted_radius = convert_mm(value1, unit1)
+    print("Converted circle radius:", converted_radius, "mm")
+# checks to see if converted radius is in valid range
+    if converted_radius is not None and minimum_allowed\
+<= converted_radius <= maximum_allowed:
+      break
+    else:
+# asks user for new radius if not in valid range
+      print(f"Converted value should be between {minimum_allowed}mm and \
+{maximum_allowed}mm. Try again.")
+      new_value = input("Enter a new radius for your circle: ")
+      try:
+        value1 = float(new_value)
+      except ValueError:
+        print("Please enter a numerical value.") 
+        
+      new_unit = input("Enter a new unit for your radius: ")
+      if new_unit in valid_units:
+        unit1 = new_unit
+        converted_radius = convert_mm(value1, unit1)
+      else:
+        print("Invalid unit. Please choose from:", ', '.join(valid_units))
+  print()
+
+# converts circle diameter from user input
+  if len(circle_values) > 0:
+    value2 = circle_values[1]
+    unit2 = circle_units[1]
+    while True:
+      converted_diameter = convert_mm(value2, unit2)
+      print("Converted circle diameter:", converted_diameter, "mm")
+# checks to see if converted diameter is in valid range
+      if converted_diameter is not None and minimum_allowed\
+<= converted_diameter <= maximum_allowed:
+        break
+      else:
+# asks user for new diameter if not in range
+        print(f"Converted value should be between {minimum_allowed}mm and \
+{maximum_allowed}mm. Try again.")
+        new_value = input("Enter a new diameter for your circle: ")
+        try:
+          value2 = float(new_value)
+        except ValueError:
+          print("Please enter a numerical value.")
+          
+      new_unit = input("Please enter a new unit for your diameter: ")
+      if new_unit in valid_units:
+        unit2 = new_unit
+        converted_diameter = convert_mm(value2, unit2)
+      else:
+        print("Invalid unit. Please choose from:", ', '.join(valid_units))
+          
+
+# converts triangle values from user input
+# converts triangle length from user input
+if len(triangle_values) > 0:
+  value1 = triangle_values[0]
+  unit1 = triangle_units[0]
+  while True:
+    converted_length = convert_mm(value1, unit1)
+    print("Converted triangle length:", converted_length, "mm")
+# checks to see if converted length is in valid range
+    if converted_length is not None and minimum_allowed <= converted_length\
+<= maximum_allowed:
+      break
+    else:
+# asks user for new length if not in range
+      print(f"Converted value should be between {minimum_allowed}mm and \
+{maximum_allowed}mm. Try again.")
+      new_value = input("Enter a new length for your triangle: ")
+      try:
+        value1 = float(new_value)
+      except ValueError:
+        print("Please enter a numerical value.")
+
+    new_unit = input("Please enter a new unit for your length: ")
+    if new_unit in valid_units:
+      unit1 = new_unit
+      converted_length = convert_mm(value1, unit1)
+    else:
+      print("Invalid unit. Please choose from:", ', '.join(valid_units))
+  print()
+
+# checks to see if triangle angle is in valid range
+  if len(triangle_values) > 0:
+    value2 = triangle_values[1]
+    unit2 = triangle_units[1]
+    if value2 > 0 and value2 < 360:
+      print("Triangle angle:", value2, unit2)
+      print()
+    else:
+# asks user for new angle if not in range
+      print("Entered angle:", value2, unit2)
+      print("Please enter an angle between 0 and 360")
+      new_value = float(input("Please enter the angle for your triangle: "))
+      if new_value > 0 and new_value < 360:
+        try:
+          value2 = new_value
+        except ValueError:
+           print("Please enter a numerical angle")
+        print("Triangle angle:", value2, unit2)
+        print()
+
+# converts triangle height from user input
+  if len(triangle_values) > 0:
+    value3 = triangle_values[2]
+    unit3 = triangle_units[2]
+    while True:
+      converted_height = convert_mm(value3, unit3)
+      print("Converted triangle height:", converted_height, "mm")
+# checks to see if converted height is in valid range
+      if converted_height is not None and minimum_allowed <= converted_height\
+<= maximum_allowed:
+        break
+      else:
+# asks user for new height if not in range
+        print(f"Converted value should be between {minimum_allowed}mm and \
+{maximum_allowed}mm. Try again.")
+        new_value = input("Enter a new height for your triangle: ")
+        try:
+          value3 = float(new_value)
+        except ValueError:
+          print("Please enter a numerical value.")
+
+      new_unit = input("Please enter a new unit for your height: ")
+      if new_unit in valid_units:
+        unit3 = new_unit
+        converted_height = convert_mm(value3, unit3)
+      else:
+        print("Invalid unit. Please choose from:", ', '.join(valid_units))
+    print()
+
+
+# converts parallelogram values from user input
+# converts parallelogram length from user input
+if len(parallelogram_values) > 0:
+  value1 = parallelogram_values[0]
+  unit1 = parallelogram_units[0]
+  while True:
+    converted_length = convert_mm(value1, unit1)
+    print("Converted parallelogram length:", converted_length, "mm")
+# checks to see if converted length is in valid range
+    if converted_length is not None and minimum_allowed <= converted_length\
+<= maximum_allowed:
+      break
+    else:
+# ask user for new length if not in range
+      print(f"Converted value should be between {minimum_allowed}mm and \
+{maximum_allowed}mm. Try again.")
+      new_value = input("Enter a new length for your parallelogram: ")
+      try:
+        value1 = float(new_value)
+      except ValueError:
+        print("Please enter a numerical value.")
+
+    new_unit = input("Please enter a new unit for your length: ")
+    if new_unit in valid_units:
+      unit1 = new_unit
+      converted_length = convert_mm(value1, unit1)
+    else:
+      print("Invalid unit. Please choose from:",','.join(valid_units))
+  print()
+
+# converts parallelogram width from user input
+if len(parallelogram_values) > 0:
+  value2 = parallelogram_values[1]
+  unit2 = parallelogram_units[1]
+  while True:
+    converted_width = convert_mm(value2, unit2)
+    print("Converted parallelogram width:", converted_width, "mm")
+# checks to see if converted width is in valid range
+    if converted_width is not None and minimum_allowed <= converted_width\
+<= maximum_allowed:
+      break
+    else:
+# ask user for new width if not in range
+      print(f"Converted value should be between {minimum_allowed}mm and \
+{maximum_allowed}mm. Try again.")
+      new_value = input("Enter a new width for your parallelogram: ")
+      try:
+        value2 = float(new_value)
+      except ValueError:
+        print("Please enter a numerical value.")
+
+    new_unit = input("Please enter a new unit for your length: ")
+    if new_unit in valid_units:
+      unit2 = new_unit
+      converted_width = convert_mm(value2, unit2)
+    else:
+      print("Invalid unit. Please choose from:",','.join(valid_units))
+  print()
