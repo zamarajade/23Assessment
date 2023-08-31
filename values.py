@@ -36,19 +36,30 @@ def values(selected_shape):
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
                   break
+              height = float(input("Please enter the perpendicular height of your \
+parallelogram: "))
+              while True:
+                height_unit = input("Enter the unit (mm, cm, m): ")
+                if height_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
               parallelogram_values.append(length)
               parallelogram_units.append(length_unit)
               parallelogram_values.append(width)
               parallelogram_units.append(width_unit)
+              parallelogram_values.append(height)
+              parallelogram_units.append(height_unit)
               print("Entered length:", length, length_unit)
               print("Entered width:", width, width_unit)
-              return length, length_unit, width, width_unit
+              print("Entered height:", height, height_unit)
+              return length, length_unit, width, width_unit, height, height_unit
             
           elif selected_shape == "triangle" or selected_shape == "t":
-              length = float(input("Please enter the length of your triangle: "))
+              base = float(input("Please enter the base length of your triangle: "))
               while True:
-                length_unit = input("Enter the unit (mm, cm, m): ")
-                if length_unit not in valid_units:
+                base_unit = input("Enter the unit (mm, cm, m): ")
+                if base_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
                   break
@@ -60,16 +71,39 @@ def values(selected_shape):
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
                   break
-              triangle_values.append(length)
-              triangle_units.append(length_unit)
+              side1 = float(input("Please enter the length of side 1 in your \
+triangle: "))
+              while True:
+                side1_unit = input("Enter the unit (mm, cm, m): ")
+                if side1_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
+              side2 = float(input("Please enter the length of side 2 in your \
+triangle: "))
+              while True:
+                side2_unit = input("Enter the unit (mm, cm, m): ")
+                if side2_unit not in valid_units:
+                  print("Invalid unit. Please choose from:", ', '.join(valid_units))
+                else:
+                  break
+              triangle_values.append(base)
+              triangle_units.append(base_unit)
               triangle_values.append(angle)
               triangle_units.append("degrees")
               triangle_values.append(height)
               triangle_units.append(height_unit)
-              print("Entered length:", length, length_unit)
+              triangle_values.append(side1)
+              triangle_units.append(side1_unit)
+              triangle_values.append(side2)
+              triangle_units.append(side2_unit)
+              print("Entered base:", base, base_unit)
               print("Entered angle:", angle, "degrees")
               print("Entered height:", height, height_unit)
-              return length, length_unit, angle, height, height_unit
+              print("Entered length of side 1:", side1, side1_unit)
+              print("Entered length of side 2:", side2, side2_unit)
+              return base, base_unit, angle, height, height_unit, side1, side1_unit, \
+            side2, side2_unit
             
           elif selected_shape == "circle" or selected_shape == "c":
               radius = float(input("Please enter the radius of your circle: "))
