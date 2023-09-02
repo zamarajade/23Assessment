@@ -193,8 +193,32 @@ def equations():
     return area_equation, perimeter_equation
 
 
+def show_instructions():
+    print('''\n
+***** Instructions *****
+
+For each calculation, enter...
+- What shape you have (can't be blank)
+- The value of what the question asks you (between 1mm and 50m)
+- The unit of the value you previously entered (mm, cm, m)
+- Repeat for each question it asks for the shape you entered
+
+When you have entered all the calculations, press 'xxx' to quit.
+
+The program will then display the calculation details
+including the area and perimeter for each shape.
+
+All values entered will be converted into mm.
+
+This information will also be automatically written
+to a text file.
+
+*************************''')
+
+
 #main
 
+yes_no_list = ["yes", "no"]
 shape_list = ["circle", "square", "triangle", "parallelogram", "xxx"]
 
 # lists to hold shape details
@@ -235,6 +259,14 @@ pi = 3.141592
 minimum_allowed = 1  # 1mm
 maximum_allowed = 50000  # 50m in mm
 
+# ask user if they want instructions
+want_instructions = string_checker("Do you want to read the instructions? (y/n): "\
+                                     , yes_no_list)
+print("You chose", want_instructions)
+if want_instructions == "yes" or want_instructions == "y":
+  instructions = show_instructions()
+print()
+
 # loop for shape calculations
 while True:
   # reset the shape-specific lists at the start of each iteration
@@ -246,6 +278,7 @@ while True:
   triangle_units = []
   parallelogram_values = []
   parallelogram_units = []
+
   # asks user to select a shape
   select_shape = string_checker("Choose a shape (circle, square, triangle, \
 parallelogram) or xxx to quit: ", shape_list).lower().strip()
