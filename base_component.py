@@ -583,55 +583,51 @@ parallelogram) or xxx to quit: ", shape_list).lower().strip()
   
   # calculate area and perimeter
   area, perimeter = equations()
-  if area is not None and perimeter is not None:
-      print()
-      print("Converted area: {:.2f}mm²".format(area))
-      print("Converted perimeter: {:.2f}mm".format(perimeter))
     
-      # Append values to the corresponding arrays
-      if select_shape == "square":
-          all_shapes.extend(["square", "-", "-"])
-          all_lengths.extend([converted_length, "-", "-"])
-          all_widths.extend(["-", "-", "-"])
-          all_heights.extend(["-", "-", "-"])
-          all_radius.extend(["-", "-", "-"])
-          all_diameter.extend(["-", "-", "-"]) 
-      elif select_shape == "circle":
-          all_shapes.extend(["circle", "-", "-"])
-          all_lengths.extend(["-", "-", "-"])
-          all_widths.extend(["-", "-", "-"])
-          all_heights.extend(["-", "-", "-"])
-          all_radius.extend([converted_radius, "-", "-"])
-          all_diameter.extend([converted_diameter, "-", "-"])
-      elif select_shape == "triangle":
-          all_shapes.extend(["triangle", "-", "-"])
-          all_lengths.extend([converted_base, converted_side2, converted_side3])
-          all_widths.extend(["-", "-", "-"]) 
-          all_heights.extend([converted_height, "-", "-"]) 
-          all_radius.extend(["-", "-", "-"]) 
-          all_diameter.extend(["-", "-", "-"]) 
-      elif select_shape == "parallelogram":
-          all_shapes.extend(["parallelogram", "-", "-"])
-          all_lengths.extend([converted_length, "-", "-"])
-          all_widths.extend([converted_width, "-", "-"])
-          all_heights.extend([converted_height, "-", "-"])
-          all_radius.extend(["-", "-", "-"])  
-          all_diameter.extend(["-", "-", "-"])
-      else:
-          # For shapes not selected, append zeros as placeholders
-          all_shapes.extend(["-", "-", "-"])
-          all_lengths.extend(["-", "-", "-"])
-          all_widths.extend(["-", "-", "-"])
-          all_heights.extend(["-", "-", "-"])
-          all_radius.extend(["-", "-", "-"])
-          all_diameter.extend(["-", "-", "-"])
+  # Append values to the corresponding arrays
+  if select_shape == "square":
+      all_shapes.extend(["square", "-", "-"])
+      all_lengths.extend([converted_length, "-", "-"])
+      all_widths.extend(["-", "-", "-"])
+      all_heights.extend(["-", "-", "-"])
+      all_radius.extend(["-", "-", "-"])
+      all_diameter.extend(["-", "-", "-"]) 
+  elif select_shape == "circle":
+      all_shapes.extend(["circle", "-", "-"])
+      all_lengths.extend(["-", "-", "-"])
+      all_widths.extend(["-", "-", "-"])
+      all_heights.extend(["-", "-", "-"])
+      all_radius.extend([converted_radius, "-", "-"])
+      all_diameter.extend([converted_diameter, "-", "-"])
+  elif select_shape == "triangle":
+      all_shapes.extend(["triangle", "-", "-"])
+      all_lengths.extend([converted_base, converted_side2, converted_side3])
+      all_widths.extend(["-", "-", "-"]) 
+      all_heights.extend([converted_height, "-", "-"]) 
+      all_radius.extend(["-", "-", "-"]) 
+      all_diameter.extend(["-", "-", "-"]) 
+  elif select_shape == "parallelogram":
+      all_shapes.extend(["parallelogram", "-", "-"])
+      all_lengths.extend([converted_length, "-", "-"])
+      all_widths.extend([converted_width, "-", "-"])
+      all_heights.extend([converted_height, "-", "-"])
+      all_radius.extend(["-", "-", "-"])  
+      all_diameter.extend(["-", "-", "-"])
+  else:
+      # For shapes not selected, append zeros as placeholders
+      all_shapes.extend(["-", "-", "-"])
+      all_lengths.extend(["-", "-", "-"])
+      all_widths.extend(["-", "-", "-"])
+      all_heights.extend(["-", "-", "-"])
+      all_radius.extend(["-", "-", "-"])
+      all_diameter.extend(["-", "-", "-"])
 
-      # Append area and perimeter to their respective lists
-      all_areas.extend([area, "-", "-"])
-      all_perimeters.extend([perimeter, "-", "-"])
-      
-      print()
-      print()
+  # Append area and perimeter to their respective lists
+  all_areas.extend([area, "-", "-"])
+  all_perimeters.extend([perimeter, "-", "-"])
+  
+  print()
+  print()
 
     
 # Create a DataFrame from the dictionaries
