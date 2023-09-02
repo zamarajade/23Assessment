@@ -1,3 +1,7 @@
+from datetime import date
+
+import pandas as pd
+
 # functions go here
 
 # checks that user enters a valid response
@@ -47,9 +51,9 @@ def values(selected_shape):
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
                   break
-              print("Entered length:", length, length_unit)
               square_values.append(length)
-              square_units.append(length_unit)            
+              square_units.append(length_unit)
+              print("Entered length:", length, length_unit)
               return length, length_unit
             
           elif selected_shape == "parallelogram" or selected_shape == "p":
@@ -191,7 +195,7 @@ def equations():
 
 #main
 
-shape_list = ["circle", "square", "triangle", "parallelogram"]
+shape_list = ["circle", "square", "triangle", "parallelogram", "xxx"]
 
 # lists to hold shape details
 square_values = []
@@ -203,22 +207,15 @@ triangle_units = []
 parallelogram_values = []
 parallelogram_units = []
 
-# list to hold all shape details
+# dictionaries to hold all shape details
 all_shapes = []
-all_values = []
-all_units = []
+all_lengths = []
+all_widths = []
+all_heights = []
+all_radius = []
+all_diameter = []
 all_areas = []
 all_perimeters = []
-
-# dictionary used to create data frame
-area_perimeter_dict = {
-  "Shape": all_shapes,
-  "Values": (all_values, all_units),
-  "Areas": all_areas,
-  "Perimeters": all_perimeters
-}
-# valid units
-valid_units = ["mm", "cm", "m"]
 
 # shape dictionary
 shapes = {
@@ -227,6 +224,9 @@ shapes = {
     "triangle": (triangle_values, triangle_units),
     "parallelogram": (parallelogram_values, parallelogram_units)
 }
+
+# valid units
+valid_units = ["mm", "cm", "m"]
 
 # pi
 pi = 3.141592
@@ -237,6 +237,15 @@ maximum_allowed = 50000  # 50m in mm
 
 # loop for shape calculations
 while True:
+  # reset the shape-specific lists at the start of each iteration
+  square_values = []
+  square_units = []
+  circle_values = []
+  circle_units = []
+  triangle_values = []
+  triangle_units = []
+  parallelogram_values = []
+  parallelogram_units = []
   # asks user to select a shape
   select_shape = string_checker("Choose a shape (circle, square, triangle, \
 parallelogram) or xxx to quit: ", shape_list).lower().strip()
@@ -261,7 +270,7 @@ parallelogram) or xxx to quit: ", shape_list).lower().strip()
   if len(square_values) > 0:
       value1 = square_values[0]
       unit1 = square_units[0]
-  
+
       while True:
           converted_length = convert_mm(value1, unit1)
           print("Converted square length:", converted_length, "mm")
@@ -284,8 +293,8 @@ parallelogram) or xxx to quit: ", shape_list).lower().strip()
                   converted_length = convert_mm(value1, unit1)
               else:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
-  
-  
+
+
   # converts circle values from user input
   # converts circle radius from user input
   if len(circle_values) > 0:
@@ -579,21 +588,94 @@ parallelogram) or xxx to quit: ", shape_list).lower().strip()
       print("Converted area: {:.2f}mm²".format(area))
       print("Converted perimeter: {:.2f}mm".format(perimeter))
     
-   # Create a dictionary to store the current shape's information
-      shape_info = {
-          'shape': select_shape,
-          'values': entered_values,
-          'units': valid_units,
-          'area': area,
-          'perimeter': perimeter
-    }
+      # Append values to the corresponding arrays
+      if select_shape == "square":
+          all_shapes.extend(["square", "-", "-"])
+          all_lengths.extend([converted_length, "-", "-"])
+          all_widths.extend(["-", "-", "-"])
+          all_heights.extend(["-", "-", "-"])
+          all_radius.extend(["-", "-", "-"])
+          all_diameter.extend(["-", "-", "-"]) 
+      elif select_shape == "circle":
+          all_shapes.extend(["circle", "-", "-"])
+          all_lengths.extend(["-", "-", "-"])
+          all_widths.extend(["-", "-", "-"])
+          all_heights.extend(["-", "-", "-"])
+          all_radius.extend([converted_radius, "-", "-"])
+          all_diameter.extend([converted_diameter, "-", "-"])
+      elif select_shape == "triangle":
+          all_shapes.extend(["triangle", "-", "-"])
+          all_lengths.extend([converted_base, converted_side2, converted_side3])
+          all_widths.extend(["-", "-", "-"]) 
+          all_heights.extend([converted_height, "-", "-"]) 
+          all_radius.extend(["-", "-", "-"]) 
+          all_diameter.extend(["-", "-", "-"]) 
+      elif select_shape == "parallelogram":
+          all_shapes.extend(["parallelogram", "-", "-"])
+          all_lengths.extend([converted_length, "-", "-"])
+          all_widths.extend([converted_width, "-", "-"])
+          all_heights.extend([converted_height, "-", "-"])
+          all_radius.extend(["-", "-", "-"])  
+          all_diameter.extend(["-", "-", "-"])
+      else:
+          # For shapes not selected, append zeros as placeholders
+          all_shapes.extend(["-", "-", "-"])
+          all_lengths.extend(["-", "-", "-"])
+          all_widths.extend(["-", "-", "-"])
+          all_heights.extend(["-", "-", "-"])
+          all_radius.extend(["-", "-", "-"])
+          all_diameter.extend(["-", "-", "-"])
 
-      # Append the dictionary to the respective lists
-      all_shapes.append(shape_info['shape'])
-      all_values.append((shape_info['values'], shape_info['units']))
-      all_areas.append(shape_info['area'])
-      all_perimeters.append(shape_info['perimeter'])
+      # Append area and perimeter to their respective lists
+      all_areas.extend([area, "-", "-"])
+      all_perimeters.extend([perimeter, "-", "-"])
+      
+      print()
+      print()
+
     
-  else:
-      print("No valid shape or values provided.")
-    
+# Create a DataFrame from the dictionaries
+area_perimeter_dict = {
+    "Shape": all_shapes,
+    "Length": all_lengths,
+    "Width": all_widths,
+    "Height": all_heights,
+    "Radius": all_radius,
+    "Diameter": all_diameter,
+    "Area": all_areas,
+    "Perimeter": all_perimeters
+}
+area_perimeter_frame = pd.DataFrame(area_perimeter_dict)
+
+
+# Get current date for heading and filename
+today = date.today()
+day, month, year = today.strftime("%d"), today.strftime("%m"), today.strftime("%Y")
+
+# Create formatted strings
+heading = f"---- Area and Perimeter Calculation Data ({day}/{month}/{year}) ----\n"
+information = "(all units are in mm)\n"
+filename = f"MMF_{year}_{month}_{day}"
+
+# Convert DataFrame to a formatted string
+def format_length(length):
+    if isinstance(length, tuple):
+        return ", ".join(str(val) for val in length)
+    return str(length)
+
+area_perimeter_frame["Length"] = area_perimeter_frame["Length"].apply(format_length)
+area_perimeter_string = area_perimeter_frame.to_string(index=False, float_format=\
+                                                       "{:.2f}".format)
+
+# List holding content to print / write to file
+to_write = [heading, information, area_perimeter_string]
+
+# Print output
+print()
+for item in to_write:
+    print(item)
+
+# Write output to file
+write_to = f"{filename}.txt"
+with open(write_to, "w") as text_file:
+    text_file.write("\n".join(to_write))

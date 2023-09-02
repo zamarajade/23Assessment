@@ -4,14 +4,18 @@ from datetime import date
 # functions go here
 
 # dictionaries to hold all shape details
-all_shapes = ["square", "circle", "triangle", "parallelogram"]
-all_lengths = [7, 0, (3,4,5), 3] 
-all_widths = [0, 0, 0, 2]
-all_heights = [0, 0, 4, 4]
-all_radius = [0, 3, 0, 0]
-all_diameter = [0, 6, 0, 0]
-all_areas = [49, 28.27, 6, 12]
-all_perimeters = [28, 18.85, 12, 10]
+all_shapes = []
+all_lengths = [7] 
+all_widths = [0]
+all_heights = [0]
+all_radius = [0]
+all_diameter = [0]
+all_areas = [49]
+all_perimeters = [28]
+
+# ask user for a shape
+shape = input("Choose a shape (circle, square, triangle, parallelogram)")
+all_shapes.append(shape)
 
 # Create a DataFrame from the dictionaries
 area_perimeter_dict = {
@@ -25,6 +29,8 @@ area_perimeter_dict = {
     "Perimeter": all_perimeters
 }
 area_perimeter_frame = pd.DataFrame(area_perimeter_dict)
+
+
 
 # Get current date for heading and filename
 today = date.today()

@@ -1,5 +1,13 @@
 {
   "files": {
+    "base_component.py": [
+      {
+        "id": "0614760d-f6b3-49e4-a825-befd9e667864",
+        "line": 171,
+        "version": 2785,
+        "index": 7123
+      }
+    ],
     "zztest.py": [
       {
         "id": "37bb6569-3e05-4834-a0d8-20a0ef9ad133",

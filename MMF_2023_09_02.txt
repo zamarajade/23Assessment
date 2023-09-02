@@ -1,0 +1,8 @@
+---- Area and Perimeter Calculation Data (02/09/2023) ----
+
+(all units are in mm)
+
+ Shape Length Width Height Radius Diameter  Area Perimeter
+square    7.0     -      -      -        - 49.00     28.00
+     -      -     -      -      -        -     -         -
+     -      -     -      -      -        -     -         -
