@@ -46,7 +46,7 @@ def values(selected_shape):
           if selected_shape == "square" or selected_shape == "s":
               length = float(input("Please enter the length of your square: "))
               while True:
-                length_unit = input("Enter the unit (mm, cm, m): ")
+                length_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if length_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
@@ -59,14 +59,14 @@ def values(selected_shape):
           elif selected_shape == "parallelogram" or selected_shape == "p":
               length = float(input("Please enter the length of your parallelogram: "))
               while True:
-                length_unit = input("Enter the unit (mm, cm, m): ")
+                length_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if length_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
                   break
               width = float(input("Please enter the width of your parallelogram: "))
               while True:
-                width_unit = input("Enter the unit (mm, cm, m): ")
+                width_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if width_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
@@ -74,7 +74,7 @@ def values(selected_shape):
               height = float(input("Please enter the perpendicular height of your \
 parallelogram: "))
               while True:
-                height_unit = input("Enter the unit (mm, cm, m): ")
+                height_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if height_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
@@ -94,7 +94,7 @@ parallelogram: "))
               base = float(input("Please enter the base length (side 1) of your \
 triangle: "))
               while True:
-                base_unit = input("Enter the unit (mm, cm, m): ")
+                base_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if base_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
@@ -102,7 +102,7 @@ triangle: "))
               side2 = float(input("Please enter the length of side 2 in your \
 triangle: "))
               while True:
-                side2_unit = input("Enter the unit (mm, cm, m): ")
+                side2_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if side2_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
@@ -110,14 +110,14 @@ triangle: "))
               side3 = float(input("Please enter the length of side 3 in your \
 triangle: "))
               while True:
-                side3_unit = input("Enter the unit (mm, cm, m): ")
+                side3_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if side3_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
                   break
               height = float(input("Please enter the height of your triangle: "))
               while True:
-                height_unit = input("Enter the unit (mm, cm, m): ")
+                height_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if height_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
@@ -144,14 +144,14 @@ triangle: "))
           elif selected_shape == "circle" or selected_shape == "c":
               radius = float(input("Please enter the radius of your circle: "))
               while True:
-                radius_unit = input("Enter the unit (mm, cm, m): ")
+                radius_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if radius_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
                   break
               diameter = float(input("Please enter the diameter of your circle: "))
               while True:
-                diameter_unit = input("Enter the unit (mm, cm, m): ")
+                diameter_unit = input("Enter the unit (mm, cm, m): ").lower()
                 if diameter_unit not in valid_units:
                   print("Invalid unit. Please choose from:", ', '.join(valid_units))
                 else:
@@ -259,6 +259,7 @@ pi = 3.141592
 minimum_allowed = 1  # 1mm
 maximum_allowed = 50000  # 50m in mm
 
+
 # ask user if they want instructions
 want_instructions = string_checker("Do you want to read the instructions? (y/n): "\
                                      , yes_no_list)
@@ -279,12 +280,24 @@ while True:
   parallelogram_values = []
   parallelogram_units = []
 
+  # reset the variables - reduces errors
+  converted_length = 0
+  converted_width = 0
+  converted_height = 0
+  converted_radius = 0
+  converted_diameter = 0
+  converted_base = 0
+  converted_side2 = 0
+  converted_side3 = 0
+  area = 0
+  perimeter = 0
+
   # asks user to select a shape
   select_shape = string_checker("Choose a shape (circle, square, triangle, \
 parallelogram) or xxx to quit: ", shape_list).lower().strip()
 
-  if select_shape == "xxx" and len(shapes) > 0:
-   break
+  if select_shape == "xxx" and len(all_shapes) > 0:
+    break
   elif select_shape == "xxx":
     print("You must make at least one calculation before quitting")
     continue
@@ -616,6 +629,8 @@ parallelogram) or xxx to quit: ", shape_list).lower().strip()
   
   # calculate area and perimeter
   area, perimeter = equations()
+  area = round(area, 2)
+  perimeter = round(perimeter, 2)
     
   # Append values to the corresponding arrays
   if select_shape == "square":
@@ -666,15 +681,16 @@ parallelogram) or xxx to quit: ", shape_list).lower().strip()
 # Create a DataFrame from the dictionaries
 area_perimeter_dict = {
     "Shape": all_shapes,
-    "Length": all_lengths,
-    "Width": all_widths,
-    "Height": all_heights,
-    "Radius": all_radius,
-    "Diameter": all_diameter,
-    "Area": all_areas,
-    "Perimeter": all_perimeters
+    "Length(mm)": all_lengths,
+    "Width(mm)": all_widths,
+    "Height(mm)": all_heights,
+    "Radius(mm)": all_radius,
+    "Diameter(mm)": all_diameter,
+    "Area(mm^2)": all_areas,
+    "Perimeter(mm)": all_perimeters
 }
 area_perimeter_frame = pd.DataFrame(area_perimeter_dict)
+area_perimeter_frame = area_perimeter_frame.round(2)
 
 
 # Get current date for heading and filename
@@ -683,7 +699,7 @@ day, month, year = today.strftime("%d"), today.strftime("%m"), today.strftime("%
 
 # Create formatted strings
 heading = f"---- Area and Perimeter Calculation Data ({day}/{month}/{year}) ----\n"
-information = "(all units are in mm)\n"
+
 filename = f"MMF_{year}_{month}_{day}"
 
 # Convert DataFrame to a formatted string
@@ -692,14 +708,15 @@ def format_length(length):
         return ", ".join(str(val) for val in length)
     return str(length)
 
-area_perimeter_frame["Length"] = area_perimeter_frame["Length"].apply(format_length)
+
 area_perimeter_string = area_perimeter_frame.to_string(index=False, float_format=\
-                                                       "{:.2f}".format)
+                                                       "{:.1f}".format)
 
 # List holding content to print / write to file
-to_write = [heading, information, area_perimeter_string]
+to_write = [heading, area_perimeter_string]
 
 # Print output
+print()
 print()
 for item in to_write:
     print(item)

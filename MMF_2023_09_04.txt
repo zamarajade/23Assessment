@@ -1,0 +1,6 @@
+---- Area and Perimeter Calculation Data (04/09/2023) ----
+
+        Shape Length(mm) Width(mm) Height(mm) Radius(mm) Diameter(mm) Area(mm^2) Perimeter(mm)
+parallelogram     5000.0    3000.0     4000.0          -            - 20000000.0       16000.0
+            -          -         -          -          -            -          -             -
+            -          -         -          -          -            -          -             -
